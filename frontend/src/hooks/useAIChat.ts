@@ -1,4 +1,5 @@
 import { useState, useCallback } from "react";
+import { API_BASE } from "@/lib/api";
 
 export interface ChatMessage {
   id: string;
@@ -24,15 +25,13 @@ export interface KeyInfo {
   updated_at?: string;
 }
 
-const API_BASE = "http://localhost:8000";
-
 export function useAIChat() {
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: "welcome",
       role: "assistant",
       content:
-        "Hi, I'm the Marketing OS AI. I can help you optimize campaigns, generate creative, or answer marketing questions. I'll automatically route your question to the best AI model.\n\n**Claude** is best for strategy & analysis.\n**OpenAI** is best for creative generation.\n\nWhat would you like help with?",
+        "Hi, I'm the Marketing OS AI. I can help you optimize campaigns, generate creative, or answer marketing questions. I'll automatically route your question to the best AI model.\n\n**Claude** is best for strategy & analysis.\n**OpenAI** is best for creative generation.\n**Gemma 4** (local) handles offline orchestration & workflow automation.\n\nWhat would you like help with?",
       provider: "system",
       timestamp: new Date().toISOString(),
     },

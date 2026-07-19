@@ -128,6 +128,23 @@ def init_db() -> None:
         conn.execute(
             "CREATE INDEX IF NOT EXISTS idx_optimizer_runs_owner ON optimizer_runs(session_id, ad_account_id, created_at)"
         )
+        conn.execute(
+            """
+            CREATE TABLE IF NOT EXISTS campaign_drafts (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                session_id TEXT NOT NULL,
+                ad_account_id TEXT,
+                current_step INTEGER DEFAULT 1,
+                is_complete INTEGER DEFAULT 0,
+                step_data TEXT DEFAULT '{}',
+                created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+                updated_at TEXT DEFAULT CURRENT_TIMESTAMP
+            )
+            """
+        )
+        conn.execute(
+            "CREATE INDEX IF NOT EXISTS idx_campaign_drafts_owner ON campaign_drafts(session_id, ad_account_id)"
+        )
         conn.commit()
 
 
@@ -330,6 +347,136 @@ def delete_ccco_campaign(
         cursor = conn.execute(
             "DELETE FROM ccco_campaigns WHERE adset_id = ? AND session_id = ? AND ad_account_id = ?",
             (adset_id, session_id, ad_account_id),
+        )
+        conn.commit()
+    return cursor.rowcount > 0
+
+
+# ---------------------------------------------------------------------------
+# Campaign Draft CRUD (for the wizard-based Campaign Builder)
+# ---------------------------------------------------------------------------
+
+
+def create_campaign_draft(
+    *,
+    session_id: str,
+    ad_account_id: str | None = None,
+) -> int:
+    """Create a new empty campaign draft. Returns the draft ID."""
+    init_db()
+    with get_db() as conn:
+        cursor = conn.execute(
+            """
+            INSERT INTO campaign_drafts (session_id, ad_account_id, step_data)
+            VALUES (?, ?, '{}')
+            """,
+            (session_id, ad_account_id),
+        )
+        conn.commit()
+        return cursor.lastrowid or 0
+
+
+def get_campaign_draft(draft_id: int, session_id: str) -> dict | None:
+    """Get a campaign draft by ID, scoped to session."""
+    init_db()
+    with get_db() as conn:
+        row = conn.execute(
+            "SELECT * FROM campaign_drafts WHERE id = ? AND session_id = ?",
+            (draft_id, session_id),
+        ).fetchone()
+    if not row:
+        return None
+    draft = dict(row)
+    if isinstance(draft.get("step_data"), str):
+        draft["step_data"] = json.loads(draft["step_data"])
+    return draft
+
+
+def list_campaign_drafts(
+    *,
+    session_id: str,
+    ad_account_id: str | None = None,
+) -> list[dict]:
+    """List all campaign drafts for a session, newest first."""
+    init_db()
+    with get_db() as conn:
+        if ad_account_id:
+            rows = conn.execute(
+                """
+                SELECT * FROM campaign_drafts
+                WHERE session_id = ? AND ad_account_id = ?
+                ORDER BY updated_at DESC
+                """,
+                (session_id, ad_account_id),
+            ).fetchall()
+        else:
+            rows = conn.execute(
+                """
+                SELECT * FROM campaign_drafts
+                WHERE session_id = ?
+                ORDER BY updated_at DESC
+                """,
+                (session_id,),
+            ).fetchall()
+    drafts = []
+    for row in rows:
+        d = dict(row)
+        if isinstance(d.get("step_data"), str):
+            d["step_data"] = json.loads(d["step_data"])
+        drafts.append(d)
+    return drafts
+
+
+def update_campaign_draft_step(
+    *,
+    draft_id: int,
+    session_id: str,
+    step_data: dict,
+    current_step: int,
+) -> bool:
+    """Update a draft's step data and current step. Returns True if updated."""
+    init_db()
+    step_data_json = json.dumps(step_data)
+    with get_db() as conn:
+        cursor = conn.execute(
+            """
+            UPDATE campaign_drafts
+            SET step_data = ?, current_step = ?, updated_at = CURRENT_TIMESTAMP
+            WHERE id = ? AND session_id = ?
+            """,
+            (step_data_json, current_step, draft_id, session_id),
+        )
+        conn.commit()
+    return cursor.rowcount > 0
+
+
+def mark_campaign_draft_complete(
+    *,
+    draft_id: int,
+    session_id: str,
+) -> bool:
+    """Mark a draft as completed. Returns True if updated."""
+    init_db()
+    with get_db() as conn:
+        cursor = conn.execute(
+            """
+            UPDATE campaign_drafts
+            SET is_complete = 1, updated_at = CURRENT_TIMESTAMP
+            WHERE id = ? AND session_id = ?
+            """,
+            (draft_id, session_id),
+        )
+        conn.commit()
+    return cursor.rowcount > 0
+
+
+def delete_campaign_draft(draft_id: int, session_id: str) -> bool:
+    """Delete a campaign draft. Returns True if deleted."""
+    init_db()
+    with get_db() as conn:
+        cursor = conn.execute(
+            "DELETE FROM campaign_drafts WHERE id = ? AND session_id = ?",
+            (draft_id, session_id),
         )
         conn.commit()
     return cursor.rowcount > 0

@@ -154,3 +154,28 @@ def _v2_api_keys(conn: sqlite3.Connection) -> None:
         )
         """
     )
+
+
+@register(
+    version=3,
+    description="Create campaign_drafts table for wizard-based campaign builder",
+)
+def _v3_campaign_drafts(conn: sqlite3.Connection) -> None:
+    """Create the ``campaign_drafts`` table for the multi-step campaign builder."""
+    conn.execute(
+        """
+        CREATE TABLE IF NOT EXISTS campaign_drafts (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            session_id TEXT NOT NULL,
+            ad_account_id TEXT,
+            current_step INTEGER DEFAULT 1,
+            is_complete INTEGER DEFAULT 0,
+            step_data TEXT DEFAULT '{}',
+            created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+            updated_at TEXT DEFAULT CURRENT_TIMESTAMP
+        )
+        """
+    )
+    conn.execute(
+        "CREATE INDEX IF NOT EXISTS idx_campaign_drafts_owner ON campaign_drafts(session_id, ad_account_id)"
+    )

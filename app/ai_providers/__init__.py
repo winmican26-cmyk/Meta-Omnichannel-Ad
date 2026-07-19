@@ -9,11 +9,13 @@ from __future__ import annotations
 from app.ai_providers.base import AIProvider, ProviderConfig, ProviderStatus
 from app.ai_providers.claude import ClaudeProvider
 from app.ai_providers.openai import OpenAIProvider
+from app.ai_providers.gemma import GemmaProvider
 
 # Registry of available providers (name -> class)
 _PROVIDER_CLASSES: dict[str, type[AIProvider]] = {
     "claude": ClaudeProvider,
     "openai": OpenAIProvider,
+    "gemma": GemmaProvider,  # Offline orchestration — no API key needed
 }
 
 # Cache of initialized provider instances
@@ -21,6 +23,30 @@ _providers: dict[str, AIProvider] = {}
 
 # Task classification rules: (keywords, recommended_provider)
 _TASK_ROUTES = [
+    # Gemma is best for offline orchestration (check first — specific terms
+    # like "workflow" and "pipeline" should take precedence over generic
+    # words like "create" and "generate" that OpenAI matches).
+    (
+        [
+            "orchestrat",
+            "workflow",
+            "pipeline",
+            "coordinate",
+            "multi-step plan",
+            "multi step plan",
+            "route the task",
+            "which ai",
+            "multi-agent",
+            "multi agent",
+            "webhook",
+            "trigger",
+            "connector",
+            "integration flow",
+            "task chain",
+            "step sequence",
+        ],
+        "gemma",
+    ),
     # Claude is best at
     (
         [

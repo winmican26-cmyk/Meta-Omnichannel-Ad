@@ -60,6 +60,15 @@ class TestAIProviderRouting:
         assert classify_task("Write a video script") == "openai"
         assert classify_task("Brainstorm creative ideas") == "openai"
 
+    def test_classify_orchestration_routes_to_gemma(self):
+        """Orchestration/workflow queries should route to Gemma."""
+        from app.ai_providers import classify_task
+
+        assert classify_task("Create a workflow for campaign launch") == "gemma"
+        assert classify_task("Automate my ad pipeline") == "gemma"
+        assert classify_task("Set up a multi-step orchestration") == "gemma"
+        assert classify_task("Coordinate AI agents for this campaign") == "gemma"
+
     def test_classify_defaults_to_claude(self):
         """Unclassified queries should default to Claude."""
         from app.ai_providers import classify_task
@@ -67,14 +76,91 @@ class TestAIProviderRouting:
         assert classify_task("Hello, what can you do?") == "claude"
         assert classify_task("Tell me about marketing") == "claude"
 
-    def test_list_providers_returns_both(self):
-        """list_providers should return Claude and OpenAI entries."""
+    def test_list_providers_returns_all(self):
+        """list_providers should return Claude, OpenAI, and Gemma entries."""
         from app.ai_providers import list_providers
 
         providers = list_providers()
         names = {p["name"] for p in providers}
         assert "claude" in names
         assert "openai" in names
+        assert "gemma" in names
+        assert len(providers) == 3
+
+    def test_gemma_is_always_available(self):
+        """Gemma should be available without any key configuration."""
+        from app.ai_providers import get_provider
+
+        gemma = get_provider("gemma")
+        assert gemma is not None
+        assert gemma.is_available() is True
+
+    def test_gemma_provider_metadata(self):
+        """Gemma should have proper display name, description, and capabilities."""
+        from app.ai_providers.gemma import GemmaProvider
+
+        assert "Gemma" in GemmaProvider.display_name()
+        assert len(GemmaProvider.description()) > 0
+        capabilities = GemmaProvider.capabilities()
+        assert "offline_orchestration" in capabilities
+        assert "workflow_automation" in capabilities
+        assert "task_routing" in capabilities
+
+    def test_gemma_validate_key_always_true(self):
+        """Gemma validate_key should always return True (no API key needed)."""
+        from app.ai_providers import get_provider
+
+        gemma = get_provider("gemma")
+        assert gemma is not None
+        assert gemma.validate_key("any-key") is True
+        assert gemma.validate_key("") is True
+
+    def test_gemma_chat_returns_fallback_response(self):
+        """Gemma chat should return a helpful orchestration response."""
+        from app.ai_providers import get_provider
+
+        gemma = get_provider("gemma")
+        assert gemma is not None
+        response = gemma.chat("Create a workflow for launching a new campaign")
+        assert len(response) > 0
+        assert (
+            "workflow" in response.lower()
+            or "Workflow" in response
+            or "pipeline" in response.lower()
+        )
+
+    def test_gemma_chat_orchestration_keywords(self):
+        """Gemma should respond to orchestration-specific queries."""
+        from app.ai_providers import get_provider
+
+        gemma = get_provider("gemma")
+        assert gemma is not None
+
+        # Workflow query
+        resp = gemma.chat("Set up a pipeline for creative generation")
+        assert len(resp) > 0
+
+        # Task routing query
+        resp = gemma.chat("Which AI should I use for this task?")
+        assert len(resp) > 0
+
+        # Multi-step planning
+        resp = gemma.chat("Plan a multi-step campaign strategy")
+        assert len(resp) > 0
+
+    def test_gemma_chat_fallback_for_generic_query(self):
+        """Gemma should return a generic orchestration response for unknown queries."""
+        from app.ai_providers import get_provider
+
+        gemma = get_provider("gemma")
+        assert gemma is not None
+        response = gemma.chat("Tell me about yourself")
+        assert len(response) > 0
+        assert (
+            "orchestration" in response.lower()
+            or "Gemma" in response
+            or "AI" in response
+        )
 
     def test_providers_have_capabilities(self):
         """Each provider should list its capabilities."""
@@ -162,7 +248,7 @@ class TestAIEndpoints:
     """Tests for the AI REST API endpoints."""
 
     def test_get_providers_list(self):
-        """GET /ai/providers should return the provider list."""
+        """GET /ai/providers should return all providers including Gemma."""
         resp = client.get("/ai/providers")
         assert resp.status_code == 200
         data = resp.json()
@@ -170,6 +256,17 @@ class TestAIEndpoints:
         names = {p["name"] for p in data}
         assert "claude" in names
         assert "openai" in names
+        assert "gemma" in names
+
+    def test_gemma_provider_shows_available(self):
+        """Gemma provider should report as available."""
+        resp = client.get("/ai/providers")
+        assert resp.status_code == 200
+        data = resp.json()
+        gemma = next((p for p in data if p["name"] == "gemma"), None)
+        assert gemma is not None
+        assert gemma["status"] == "available"
+        assert "Gemma" in gemma["label"]
 
     def test_chat_returns_fallback_when_no_keys(self):
         """POST /ai/chat should return a helpful fallback without keys."""

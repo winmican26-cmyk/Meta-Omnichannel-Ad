@@ -78,6 +78,11 @@ function AIProviderSettings() {
       description: "Creative generation, ad copy, and quick answers",
       icon: "GPT",
     },
+    gemma: {
+      label: "Gemma 4 (Local)",
+      description: "Offline orchestration, workflow automation, and task routing — no API key needed",
+      icon: "G4",
+    },
   };
 
   return (
@@ -184,6 +189,7 @@ function AIProviderSettings() {
           <div className="text-xs text-text-secondary space-y-1">
             <p><span className="text-brand-orange font-medium">Claude</span> — Strategy, analysis, optimization, forecasting, reasoning</p>
             <p><span className="text-brand-green font-medium">OpenAI</span> — Creative, copywriting, headlines, image generation, quick answers</p>
+            <p><span className="text-brand-purple font-medium">Gemma 4</span> — Offline orchestration, workflow automation, task routing, multi-step planning</p>
             <p className="text-text-muted mt-1">Messages are automatically routed to the best AI based on content. You can also force a provider from AI Studio.</p>
           </div>
         </CardContent>

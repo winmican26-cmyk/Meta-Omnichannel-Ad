@@ -52,6 +52,16 @@ from app.schemas.campaign import (
     HealthResponse,
 )
 from app.services.campaign_service import CampaignService
+from app.services.campaign_builder_service import CampaignBuilderService
+from app.schemas.campaign_builder import (
+    DraftCreateRequest,
+    DraftCreateResponse,
+    DraftUpdateStepRequest,
+    DraftValidateRequest,
+    DraftLaunchRequest,
+    DraftLaunchResponse,
+    DraftListItem,
+)
 from app.templates import (
     DuplicateTemplateRequest,
     SaveTemplateRequest,
@@ -381,6 +391,89 @@ async def duplicate_campaign(
         new_daily_budget=payload.new_daily_budget,
     )
     return await _create_ccco_campaign_from_request(new_config)
+
+
+# ---------------------------------------------------------------------------
+# Campaign Builder endpoints (Phase 2, Step 4)
+# ---------------------------------------------------------------------------
+
+
+@app.post("/campaigns/builder/draft", tags=["campaigns"])
+async def create_builder_draft(payload: DraftCreateRequest) -> DraftCreateResponse:
+    """Create a new empty campaign draft for the wizard."""
+    get_session(payload.session_id)  # validate session exists
+    result = CampaignBuilderService.create_draft(payload.session_id)
+    return DraftCreateResponse(**result)
+
+
+@app.get(
+    "/campaigns/builder/drafts", response_model=list[DraftListItem], tags=["campaigns"]
+)
+async def list_builder_drafts(session_id: str) -> list[dict]:
+    """List all campaign drafts for the current session."""
+    get_session(session_id)
+    return CampaignBuilderService.list_drafts(session_id)
+
+
+@app.get("/campaigns/builder/draft/{draft_id}", tags=["campaigns"])
+async def get_builder_draft(draft_id: int, session_id: str) -> dict:
+    """Get a specific campaign draft with full step data."""
+    draft = CampaignBuilderService.get_draft(draft_id, session_id)
+    if not draft:
+        raise HTTPException(status_code=404, detail="Draft not found")
+    return draft
+
+
+@app.put("/campaigns/builder/draft/{draft_id}/step/{step}", tags=["campaigns"])
+async def update_builder_step(
+    draft_id: int,
+    step: str,
+    payload: DraftUpdateStepRequest,
+) -> dict:
+    """Update a single wizard step's data for a draft."""
+    return CampaignBuilderService.update_step(
+        draft_id=draft_id,
+        session_id=payload.session_id,
+        step=step,
+        step_data=payload.step_data,
+    )
+
+
+@app.post("/campaigns/builder/draft/{draft_id}/validate", tags=["campaigns"])
+async def validate_builder_step(
+    draft_id: int,
+    step: str,
+    payload: DraftValidateRequest,
+) -> dict:
+    """Check if a wizard step has all required fields filled."""
+    return CampaignBuilderService.validate_step(
+        draft_id=draft_id,
+        session_id=payload.session_id,
+        step=step,
+    )
+
+
+@app.post(
+    "/campaigns/builder/draft/{draft_id}/launch",
+    response_model=DraftLaunchResponse,
+    tags=["campaigns"],
+)
+async def launch_builder_draft(
+    draft_id: int,
+    payload: DraftLaunchRequest,
+) -> DraftLaunchResponse:
+    """Convert a completed draft into a live campaign."""
+    result = await CampaignBuilderService.launch(draft_id, payload.session_id)
+    return DraftLaunchResponse(**result)
+
+
+@app.delete("/campaigns/builder/draft/{draft_id}", tags=["campaigns"])
+async def delete_builder_draft(draft_id: int, session_id: str) -> dict:
+    """Delete a campaign draft."""
+    deleted = CampaignBuilderService.delete_draft(draft_id, session_id)
+    if not deleted:
+        raise HTTPException(status_code=404, detail="Draft not found")
+    return {"status": "deleted"}
 
 
 @app.post("/optimize/backtest", response_model=BacktestResult, tags=["ai"])

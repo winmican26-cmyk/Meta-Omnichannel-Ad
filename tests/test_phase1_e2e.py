@@ -394,7 +394,7 @@ def test_migration_is_idempotent(tmp_path, monkeypatch):
     conn = sqlite3.connect(str(db_path))
     count = conn.execute("SELECT COUNT(*) AS c FROM schema_migrations").fetchone()[0]
     conn.close()
-    assert count == 2  # v1 + v2 recorded
+    assert count == 3  # v1 + v2 + v3 recorded
 
 
 # ===================================================================

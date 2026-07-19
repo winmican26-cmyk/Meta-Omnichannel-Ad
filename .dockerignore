@@ -1,0 +1,37 @@
+# Git
+.git/
+.gitignore
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Local DB
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+
+# Env files (keep .env.example but ignore secrets)
+.env
+.env.local
+.env.production
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Tests / coverage
+.test-cache/
+htmlcov/
+.coverage
+
+# Docs / misc
+*.md
