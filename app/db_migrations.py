@@ -138,3 +138,19 @@ def _baseline_v1(conn: sqlite3.Connection) -> None:
     # If you are deploying to a fresh database, ``init_db()`` will run first
     # and create all tables. If you are deploying to an existing database,
     # the schema is already in place.
+
+
+@register(version=2, description="Create api_keys table for AI provider key storage")
+def _v2_api_keys(conn: sqlite3.Connection) -> None:
+    """Create the ``api_keys`` table for encrypted AI provider keys."""
+    conn.execute(
+        """
+        CREATE TABLE IF NOT EXISTS api_keys (
+            provider TEXT PRIMARY KEY,
+            encrypted_key TEXT NOT NULL,
+            label TEXT,
+            created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+            updated_at TEXT DEFAULT CURRENT_TIMESTAMP
+        )
+        """
+    )

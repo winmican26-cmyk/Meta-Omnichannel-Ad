@@ -58,6 +58,15 @@ from app.templates import (
     TemplateRecord,
     TemplatesService,
 )
+from app.ai_providers import list_providers, route_query
+from app.key_manager import (
+    delete_key,
+    get_key,
+    has_key,
+    list_keys,
+    save_key,
+    validate_and_save_key,
+)
 from app.db_migrations import run_migrations
 from app.utils.logging import structlog
 from app.utils.request_id import RequestIDMiddleware
@@ -510,6 +519,132 @@ async def plan_migration(
     plan = await MigrationService.plan_migration(session_id, old_campaign_id, new_name)
     CreditService.spend_credits(session_id, amount=30)
     return plan
+
+
+# ---------------------------------------------------------------------------
+# AI Provider endpoints
+# ---------------------------------------------------------------------------
+
+
+class ChatRequest(BaseModel):
+    message: str
+    provider: str | None = None  # If None, smart-route automatically
+
+
+class ChatResponse(BaseModel):
+    response: str
+    provider_used: str
+    routing_note: str
+
+
+class SaveKeyRequest(BaseModel):
+    provider: str
+    key: str
+
+
+class KeyStatusResponse(BaseModel):
+    provider: str
+    configured: bool
+    label: str | None = None
+
+
+@app.get("/ai/providers", tags=["ai"])
+async def get_ai_providers() -> list[dict]:
+    """List all registered AI providers with their status and capabilities."""
+    return list_providers()
+
+
+@app.post("/ai/chat", response_model=ChatResponse, tags=["ai"])
+async def ai_chat(request: ChatRequest) -> ChatResponse:
+    """Send a message to the best available AI provider.
+
+    If ``provider`` is specified, that provider is used directly.
+    Otherwise, the message is classified and routed to the most capable
+    available provider (Claude for analysis, OpenAI for creative).
+    """
+    if request.provider:
+        from app.ai_providers import get_provider
+
+        provider = get_provider(request.provider)
+        if provider is None:
+            raise HTTPException(
+                status_code=404, detail=f"Unknown provider: {request.provider}"
+            )
+        if not provider.is_available():
+            raise HTTPException(
+                status_code=503,
+                detail=f"{provider.display_name()} is not available. Configure its API key in Settings.",
+            )
+        response = provider.chat(request.message)
+        return ChatResponse(
+            response=response,
+            provider_used=request.provider,
+            routing_note=f"forced route to {request.provider}",
+        )
+
+    # Smart routing
+    provider, note = route_query(request.message)
+    if provider is None:
+        return ChatResponse(
+            response="No AI provider is available. Configure API keys in **Settings > Integrations > AI Providers**.",
+            provider_used="none",
+            routing_note=note,
+        )
+    response = provider.chat(request.message)
+    return ChatResponse(
+        response=response,
+        provider_used=provider.config.name,
+        routing_note=note,
+    )
+
+
+@app.get("/ai/keys", tags=["ai"])
+async def get_ai_keys() -> list[dict]:
+    """List stored provider keys (metadata only)."""
+    return list_keys()
+
+
+@app.post("/ai/keys", tags=["ai"])
+async def save_ai_key(request: SaveKeyRequest) -> dict:
+    """Save an AI provider API key (validates before saving, but saves even if
+    validation fails so users can configure keys offline)."""
+    from app.key_manager import save_key
+
+    save_key(request.provider, request.key)
+    # Attempt validation in background; ignore failures
+    try:
+        success, message = validate_and_save_key(request.provider, request.key)
+        return {"status": "saved", "message": message}
+    except Exception:
+        return {"status": "saved", "message": f"Key saved for {request.provider}"}
+
+
+@app.delete("/ai/keys/{provider}", tags=["ai"])
+async def delete_ai_key(provider: str) -> dict:
+    """Remove a stored AI provider API key."""
+    deleted = delete_key(provider)
+    return {"status": "deleted" if deleted else "not_found"}
+
+
+@app.get("/ai/keys/{provider}/status", response_model=KeyStatusResponse, tags=["ai"])
+async def ai_key_status(provider: str) -> KeyStatusResponse:
+    """Check whether a provider has a key configured."""
+    from app.ai_providers import get_provider
+
+    configured = has_key(provider)
+    prov = get_provider(provider)
+    label = None
+    if configured:
+        keys = list_keys()
+        for k in keys:
+            if k["provider"] == provider:
+                label = k.get("label")
+                break
+    return KeyStatusResponse(
+        provider=provider,
+        configured=configured,
+        label=label,
+    )
 
 
 @app.get("/credits/balance", tags=["billing"])
