@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sign in — Meta Omni Channel Ad</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="stylesheet" href="/legal.css" />
+  <link rel="stylesheet" href="/site.css" />
+  <style>
+    .auth-wrap {
+      max-width: 480px;
+      margin: 30px auto 80px;
+      padding: 0 24px;
+    }
+    .auth-card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(0, 196, 255, 0.18);
+      border-radius: 18px;
+      padding: 36px 32px;
+      box-shadow: 0 30px 80px -30px rgba(0, 123, 255, 0.45);
+    }
+    .auth-logo-row {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 18px;
+    }
+    .auth-logo-row img { height: 56px; }
+    .auth-card h1 {
+      font-size: 28px;
+      letter-spacing: -0.5px;
+      margin: 0 0 8px;
+      text-align: center;
+      font-weight: 900;
+    }
+    .auth-card .sub {
+      text-align: center;
+      color: var(--ink-dim);
+      font-size: 14px;
+      line-height: 1.55;
+      margin: 0 0 26px;
+    }
+    .auth-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 14px 18px;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.3px;
+      text-decoration: none;
+      transition: transform 0.12s ease, box-shadow 0.2s ease, border-color 0.15s ease;
+      box-sizing: border-box;
+    }
+    .auth-btn:hover { transform: translateY(-1px); }
+    .auth-btn-primary {
+      background: #1877f2;
+      color: #fff;
+      box-shadow: 0 10px 30px -10px rgba(24, 119, 242, 0.7);
+    }
+    .auth-btn-primary:hover { background: #1564d4; }
+    .auth-btn-primary svg { flex-shrink: 0; }
+    .auth-divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 22px 0;
+      color: var(--ink-muted);
+      font-size: 11px;
+      letter-spacing: 2px;
+    }
+    .auth-divider::before, .auth-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .auth-btn-secondary {
+      width: 100%;
+      background: rgba(0, 196, 255, 0.04);
+      color: var(--ink);
+      border: 1px solid rgba(0, 196, 255, 0.35);
+    }
+    .auth-btn-secondary:hover { border-color: var(--cyan); }
+    .auth-form { display: grid; gap: 12px; margin-bottom: 14px; }
+    .auth-form label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--ink-dim);
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+    .auth-form input {
+      width: 100%;
+      box-sizing: border-box;
+      background: rgba(0, 0, 0, 0.25);
+      color: var(--ink);
+      border: 1px solid rgba(0, 196, 255, 0.2);
+      border-radius: 8px;
+      padding: 11px 12px;
+      font-size: 14px;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.15s ease;
+    }
+    .auth-form input:focus { border-color: var(--cyan); }
+    .auth-toggle {
+      text-align: center;
+      font-size: 13px;
+      color: var(--ink-muted);
+      margin: 20px 0 0;
+    }
+    .auth-toggle a {
+      color: var(--cyan);
+      text-decoration: none;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .auth-toggle a:hover { text-decoration: underline; }
+    .auth-perms {
+      margin-top: 22px;
+      padding: 14px 16px;
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(0, 196, 255, 0.12);
+      border-radius: 10px;
+      font-size: 12px;
+      color: var(--ink-muted);
+      line-height: 1.6;
+    }
+    .auth-perms strong { color: var(--ink-dim); display: block; margin-bottom: 4px; }
+    .auth-perms code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--cyan);
+      padding: 1px 5px;
+      background: rgba(0, 245, 255, 0.07);
+      border-radius: 4px;
+    }
+    .auth-foot {
+      text-align: center;
+      font-size: 12px;
+      color: var(--ink-muted);
+      margin-top: 24px;
+      line-height: 1.6;
+    }
+    .auth-foot a { color: var(--ink-dim); text-decoration: none; }
+    .auth-foot a:hover { color: var(--cyan); }
+    .auth-msg {
+      display: none;
+      margin-top: 12px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+    }
+    .auth-msg.ok { display: block; background: rgba(0, 245, 255, 0.08); border: 1px solid rgba(0, 245, 255, 0.35); color: var(--ink); }
+    .auth-msg.err { display: block; background: rgba(255, 80, 80, 0.1); border: 1px solid rgba(255, 80, 80, 0.35); color: #ffd0d0; }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <a href="/"><img src="/logo-light.svg" alt="Meta Omni Channel Ad" class="nav-logo" /></a>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/privacy-policy">Privacy</a>
+      <a href="/terms">Terms</a>
+    </div>
+  </nav>
+
+  <main class="auth-wrap">
+    <div class="auth-card">
+      <div class="auth-logo-row">
+        <img src="/favicon.svg" alt="" />
+      </div>
+
+      <div id="signin-pane">
+        <h1>Sign in to your account</h1>
+        <p class="sub">Connect your Meta Business account to create cross-channel campaigns, sync insights, and run the AI optimizer.</p>
+
+        <a href="/auth/login" class="auth-btn auth-btn-primary" id="meta-signin-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M24 12.073c0-6.627-5.373-12-12-12S0 5.446 0 12.073c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+          </svg>
+          <span>Continue with Meta Business Login</span>
+        </a>
+
+        <div class="auth-divider">OR</div>
+
+        <form class="auth-form" id="signin-form" novalidate>
+          <div>
+            <label for="signin-email">Email</label>
+            <input id="signin-email" name="email" type="email" autocomplete="email" required />
+          </div>
+          <div>
+            <label for="signin-password">Password</label>
+            <input id="signin-password" name="password" type="password" autocomplete="current-password" required minlength="8" />
+          </div>
+          <button type="submit" class="auth-btn auth-btn-secondary">Sign in with email</button>
+          <div class="auth-msg" id="signin-msg" role="status" aria-live="polite"></div>
+        </form>
+
+        <p class="auth-toggle">
+          Don't have an account? <a id="show-signup">Create one</a>
+        </p>
+
+        <div class="auth-perms">
+          <strong>What you'll be asked to authorise</strong>
+          We use Meta Business Login so you never share your Meta password with us. You'll see Meta's standard consent screen listing the access we need to manage your campaigns and pull performance data on your behalf. You can revoke this access at any time from your Meta Business Settings.
+        </div>
+      </div>
+
+      <div id="signup-pane" style="display:none;">
+        <h1>Create an account</h1>
+        <p class="sub">We recommend signing up with Meta Business Login so we can immediately set up ad-account access. Email signup gets you into the product; you'll still connect Meta from the dashboard to run ads.</p>
+
+        <a href="/auth/login" class="auth-btn auth-btn-primary">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M24 12.073c0-6.627-5.373-12-12-12S0 5.446 0 12.073c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+          </svg>
+          <span>Sign up with Meta Business Login</span>
+        </a>
+
+        <div class="auth-divider">OR</div>
+
+        <form class="auth-form" id="signup-form" novalidate>
+          <div>
+            <label for="signup-name">Full name</label>
+            <input id="signup-name" name="full_name" type="text" autocomplete="name" required maxlength="200" />
+          </div>
+          <div>
+            <label for="signup-email">Work email</label>
+            <input id="signup-email" name="email" type="email" autocomplete="email" required />
+          </div>
+          <div>
+            <label for="signup-password">Password (min 8 chars)</label>
+            <input id="signup-password" name="password" type="password" autocomplete="new-password" required minlength="8" />
+          </div>
+          <button type="submit" class="auth-btn auth-btn-secondary">Create email account</button>
+          <div class="auth-msg" id="signup-msg" role="status" aria-live="polite"></div>
+        </form>
+
+        <p class="auth-toggle">
+          Already have an account? <a id="show-signin">Sign in</a>
+        </p>
+      </div>
+
+      <p class="auth-foot">
+        By continuing you agree to the <a href="/terms">Terms</a> and acknowledge the <a href="/privacy-policy">Privacy Policy</a>.
+      </p>
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      const signinPane = document.getElementById('signin-pane');
+      const signupPane = document.getElementById('signup-pane');
+      const showSignup = document.getElementById('show-signup');
+      const showSignin = document.getElementById('show-signin');
+
+      function setPane(name) {
+        const isSignup = name === 'signup';
+        signupPane.style.display = isSignup ? '' : 'none';
+        signinPane.style.display = isSignup ? 'none' : '';
+        history.replaceState(null, '', isSignup ? '/login?mode=signup' : '/login');
+      }
+      showSignup.addEventListener('click', () => setPane('signup'));
+      showSignin.addEventListener('click', () => setPane('signin'));
+
+      if (new URLSearchParams(window.location.search).get('mode') === 'signup') {
+        setPane('signup');
+      }
+
+      async function submitAuth(form, endpoint, msg, button) {
+        const payload = Object.fromEntries(new FormData(form).entries());
+        msg.className = 'auth-msg';
+        msg.textContent = '';
+        button.disabled = true;
+        const original = button.textContent;
+        button.textContent = 'Working…';
+        try {
+          const res = await fetch(endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          });
+          const data = await res.json().catch(() => ({}));
+          if (!res.ok) {
+            const detail = Array.isArray(data.detail)
+              ? data.detail.map(d => d.msg || JSON.stringify(d)).join('; ')
+              : (data.detail || `Request failed (${res.status})`);
+            throw new Error(detail);
+          }
+          msg.className = 'auth-msg ok';
+          msg.textContent = data.message || 'Success.';
+          if (data.redirect) {
+            setTimeout(() => { window.location.href = data.redirect; }, 600);
+          }
+        } catch (err) {
+          msg.className = 'auth-msg err';
+          msg.textContent = err.message;
+        } finally {
+          button.disabled = false;
+          button.textContent = original;
+        }
+      }
+
+      document.getElementById('signin-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+        submitAuth(this, '/auth/email/login', document.getElementById('signin-msg'), this.querySelector('button'));
+      });
+      document.getElementById('signup-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+        submitAuth(this, '/auth/email/signup', document.getElementById('signup-msg'), this.querySelector('button'));
+      });
+    })();
+  </script>
+  <script src="/site.js" defer></script>
+</body>
+</html>

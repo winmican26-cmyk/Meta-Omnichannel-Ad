@@ -1,0 +1,33 @@
+<svg fill="none" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Meta Omni Channel Ad icon">
+  <defs>
+    <linearGradient gradientUnits="objectBoundingBox" y2="100%" x2="100%" y1="0%" x1="0%" id="coreGradient">
+      <stop stop-color="#00F5FF" offset="0%"/>
+      <stop stop-color="#007BFF" offset="100%"/>
+    </linearGradient>
+    <filter height="140%" width="140%" y="-20%" x="-20%" id="glow">
+      <feGaussianBlur result="coloredBlur" stdDeviation="2.5"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <circle opacity="0.85" stroke-width="4" stroke="#111113" fill="none" r="68" cy="110" cx="110"/>
+
+  <line filter="url(#glow)" stroke-linecap="round" stroke-width="4" stroke="#00C4FF" y2="110" x2="123" y1="110" x1="178"/>
+  <line filter="url(#glow)" stroke-linecap="round" stroke-width="4" stroke="#00C4FF" y2="85" x2="123" y1="57" x1="157.5"/>
+  <line filter="url(#glow)" stroke-linecap="round" stroke-width="4" stroke="#00C4FF" y2="85" x2="97" y1="57" x1="62.5"/>
+  <line filter="url(#glow)" stroke-linecap="round" stroke-width="4" stroke="#00C4FF" y2="110" x2="97" y1="110" x1="42"/>
+  <line filter="url(#glow)" stroke-linecap="round" stroke-width="4" stroke="#00C4FF" y2="135" x2="97" y1="163" x1="62.5"/>
+  <line filter="url(#glow)" stroke-linecap="round" stroke-width="4" stroke="#00C4FF" y2="135" x2="123" y1="163" x1="157.5"/>
+
+  <circle fill="#0055FF" r="4" cy="110" cx="178"/>
+  <circle fill="#0055FF" r="4" cy="57" cx="157.5"/>
+  <circle fill="#0055FF" r="4" cy="57" cx="62.5"/>
+  <circle fill="#0055FF" r="4" cy="110" cx="42"/>
+  <circle fill="#0055FF" r="4" cy="163" cx="62.5"/>
+  <circle fill="#0055FF" r="4" cy="163" cx="157.5"/>
+
+  <circle filter="url(#glow)" fill="url(#coreGradient)" r="36" cy="110" cx="110"/>
+</svg>

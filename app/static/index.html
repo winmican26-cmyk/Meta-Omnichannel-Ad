@@ -1,0 +1,1100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Meta Omni Channel Ad — CCCO Engine</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="stylesheet" href="/site.css" />
+  <meta name="description" content="Meta cross-channel conversion optimization engine — omnichannel campaigns, AI optimization, creative studio, and live insights." />
+  <style>
+    :root {
+      --bg-0: #06121f;
+      --bg-1: #0a1a2e;
+      --bg-2: #102a44;
+      --ink: #e8f4ff;
+      --ink-dim: #a8c0d8;
+      --ink-muted: #7a93ac;
+      --cyan: #00f5ff;
+      --blue: #007bff;
+      --node: #0055ff;
+      --line: rgba(0, 196, 255, 0.85);
+      --card: rgba(255, 255, 255, 0.04);
+      --card-border: rgba(0, 196, 255, 0.18);
+      --card-border-hover: rgba(0, 196, 255, 0.45);
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: 'Helvetica Neue', 'Inter', system-ui, -apple-system, Arial, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(1100px 600px at 80% -10%, rgba(0, 123, 255, 0.25), transparent 60%),
+        radial-gradient(900px 500px at 0% 30%, rgba(0, 245, 255, 0.14), transparent 60%),
+        linear-gradient(180deg, var(--bg-0) 0%, var(--bg-1) 60%, var(--bg-2) 100%);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 22px 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .nav-logo { height: 56px; width: auto; display: block; }
+    .nav-links { display: flex; gap: 22px; align-items: center; }
+    .nav-links a {
+      color: var(--ink-dim);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.4px;
+      transition: color 0.15s ease;
+    }
+    .nav-links a:hover { color: var(--cyan); }
+    .nav-cta {
+      background: linear-gradient(135deg, var(--cyan), var(--blue));
+      color: #021024 !important;
+      padding: 9px 18px;
+      border-radius: 8px;
+      font-weight: 700 !important;
+    }
+
+    .hero {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 60px 40px 80px;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 60px;
+      align-items: center;
+    }
+    .eyebrow {
+      display: inline-block;
+      font-size: 12px;
+      letter-spacing: 3px;
+      font-weight: 700;
+      color: var(--cyan);
+      background: rgba(0, 245, 255, 0.08);
+      border: 1px solid rgba(0, 245, 255, 0.25);
+      padding: 6px 12px;
+      border-radius: 999px;
+      margin-bottom: 22px;
+    }
+    h1 {
+      font-size: 56px;
+      line-height: 1.05;
+      letter-spacing: -1.5px;
+      margin: 0 0 22px;
+      font-weight: 900;
+    }
+    h1 .grad {
+      background: linear-gradient(135deg, var(--cyan), var(--blue));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .lede {
+      font-size: 18px;
+      line-height: 1.6;
+      color: var(--ink-dim);
+      margin: 0 0 32px;
+      max-width: 540px;
+    }
+    .cta-row { display: flex; gap: 14px; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 13px 22px;
+      border-radius: 10px;
+      font-weight: 700;
+      text-decoration: none;
+      font-size: 15px;
+      transition: transform 0.12s ease, box-shadow 0.2s ease;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--cyan), var(--blue));
+      color: #021024;
+      box-shadow: 0 10px 30px -10px rgba(0, 196, 255, 0.6);
+    }
+    .btn-ghost {
+      color: var(--ink);
+      border: 1px solid rgba(0, 196, 255, 0.35);
+      background: rgba(0, 196, 255, 0.04);
+    }
+    .btn-ghost:hover { border-color: var(--cyan); }
+
+    .hero-art {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+    .hero-art::before {
+      content: '';
+      position: absolute;
+      inset: -40px;
+      background: radial-gradient(closest-side, rgba(0, 196, 255, 0.25), transparent 70%);
+      filter: blur(20px);
+      z-index: 0;
+    }
+    .hero-art img {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 420px;
+      filter: drop-shadow(0 20px 40px rgba(0, 123, 255, 0.35));
+    }
+
+    .stats {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 40px 60px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+    .stat {
+      padding: 22px;
+      border-radius: 14px;
+      background: var(--card);
+      border: 1px solid var(--card-border);
+    }
+    .stat-num {
+      font-size: 28px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, var(--cyan), var(--blue));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .stat-label {
+      color: var(--ink-muted);
+      font-size: 13px;
+      margin-top: 6px;
+      letter-spacing: 0.3px;
+    }
+
+    .features {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 40px 100px;
+    }
+    .console {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px 40px 72px;
+    }
+    .console-head {
+      max-width: 760px;
+      margin-bottom: 28px;
+    }
+    .console-head h2 {
+      font-size: 34px;
+      letter-spacing: -0.6px;
+      margin: 0 0 10px;
+      font-weight: 850;
+    }
+    .console-head p {
+      color: var(--ink-dim);
+      font-size: 15px;
+      line-height: 1.6;
+      margin: 0;
+    }
+    .console-shell {
+      border: 1px solid rgba(0, 196, 255, 0.22);
+      background: rgba(3, 12, 22, 0.72);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 26px 70px -36px rgba(0, 196, 255, 0.8);
+    }
+    .console-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 16px 18px;
+      border-bottom: 1px solid rgba(0, 196, 255, 0.14);
+      background: rgba(255, 255, 255, 0.035);
+    }
+    .console-topbar strong {
+      display: block;
+      font-size: 15px;
+      margin-bottom: 3px;
+    }
+    .console-topbar span {
+      color: var(--ink-muted);
+      font-size: 12px;
+    }
+    .console-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .console-actions a {
+      color: var(--ink);
+      border: 1px solid rgba(0, 196, 255, 0.26);
+      background: rgba(0, 196, 255, 0.05);
+      padding: 8px 11px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 800;
+    }
+    .console-grid {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      min-height: 520px;
+    }
+    .console-rail {
+      display: grid;
+      align-content: start;
+      gap: 6px;
+      padding: 18px 14px;
+      border-right: 1px solid rgba(0, 196, 255, 0.12);
+      background: rgba(0, 0, 0, 0.16);
+    }
+    .console-rail a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 10px;
+      color: var(--ink-dim);
+      text-decoration: none;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .console-rail a:hover {
+      color: var(--cyan);
+      background: rgba(0, 196, 255, 0.07);
+    }
+    .console-rail span {
+      color: var(--cyan);
+      font-family: 'JetBrains Mono', 'Menlo', monospace;
+      font-size: 11px;
+    }
+    .console-main {
+      padding: 18px;
+      min-width: 0;
+    }
+    .metric-strip {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .metric-strip div {
+      border: 1px solid rgba(0, 196, 255, 0.16);
+      background: rgba(255, 255, 255, 0.035);
+      border-radius: 10px;
+      padding: 14px;
+      min-width: 0;
+    }
+    .metric-strip span {
+      display: block;
+      color: var(--ink-muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+    .metric-strip strong {
+      font-size: 24px;
+      letter-spacing: 0;
+    }
+    .workflow-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 14px;
+    }
+    .workflow-panel {
+      border: 1px solid rgba(0, 196, 255, 0.16);
+      background: rgba(255, 255, 255, 0.04);
+      border-radius: 10px;
+      padding: 16px;
+      min-width: 0;
+    }
+    .primary-panel {
+      grid-row: span 2;
+    }
+    .panel-kicker {
+      color: var(--cyan);
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      font-weight: 850;
+      margin-bottom: 9px;
+    }
+    .workflow-panel h3 {
+      font-size: 18px;
+      margin: 0 0 14px;
+      letter-spacing: 0;
+    }
+    .workflow-panel p {
+      color: var(--ink-dim);
+      line-height: 1.55;
+      font-size: 13px;
+      margin: 14px 0 0;
+    }
+    .field-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .field-grid label {
+      color: var(--ink-muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 800;
+    }
+    .field-grid input {
+      display: block;
+      width: 100%;
+      margin-top: 6px;
+      padding: 10px 11px;
+      border: 1px solid rgba(0, 196, 255, 0.18);
+      border-radius: 8px;
+      background: rgba(0, 0, 0, 0.24);
+      color: var(--ink);
+      font: inherit;
+      font-size: 13px;
+    }
+    .channel-map {
+      display: grid;
+      gap: 7px;
+      border-top: 1px solid rgba(255, 255, 255, 0.07);
+      padding-top: 14px;
+    }
+    .channel-map span {
+      color: var(--ink-muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 800;
+    }
+    .channel-map strong {
+      color: var(--ink);
+      font-family: 'JetBrains Mono', 'Menlo', monospace;
+      font-size: 12px;
+      overflow-wrap: anywhere;
+      margin-bottom: 8px;
+    }
+    .split-bar {
+      display: grid;
+      grid-template-columns: 65fr 35fr;
+      height: 12px;
+      border-radius: 999px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .split-app { background: #00f5ff; }
+    .split-web { background: #6effb8; }
+    .split-labels {
+      display: flex;
+      justify-content: space-between;
+      color: var(--ink-dim);
+      font-size: 12px;
+      margin-top: 9px;
+      font-weight: 800;
+    }
+    .workflow-panel pre {
+      margin: 0;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      color: #d9f9ff;
+      background: rgba(0, 0, 0, 0.24);
+      border: 1px solid rgba(0, 196, 255, 0.14);
+      border-radius: 8px;
+      padding: 12px;
+      font-size: 12px;
+      line-height: 1.5;
+      min-height: 118px;
+    }
+    .mini-chart {
+      height: 108px;
+      display: flex;
+      align-items: end;
+      gap: 9px;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid rgba(0, 196, 255, 0.14);
+      background: rgba(0, 0, 0, 0.22);
+    }
+    .mini-chart span {
+      flex: 1;
+      min-width: 14px;
+      border-radius: 6px 6px 2px 2px;
+      background: linear-gradient(180deg, #00f5ff, #007bff);
+    }
+    .features-head {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .features-head h2 {
+      font-size: 36px;
+      letter-spacing: -0.8px;
+      margin: 0 0 12px;
+      font-weight: 800;
+    }
+    .features-head p {
+      color: var(--ink-dim);
+      max-width: 600px;
+      margin: 0 auto;
+      font-size: 16px;
+      line-height: 1.55;
+    }
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+    .card {
+      padding: 26px;
+      border-radius: 16px;
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+    .card:hover {
+      border-color: var(--card-border-hover);
+      transform: translateY(-2px);
+    }
+    .card-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, rgba(0, 245, 255, 0.18), rgba(0, 123, 255, 0.18));
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+      font-size: 20px;
+    }
+    .card h3 {
+      margin: 0 0 8px;
+      font-size: 17px;
+      font-weight: 700;
+    }
+    .card p {
+      margin: 0 0 14px;
+      color: var(--ink-dim);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+    .endpoint {
+      display: inline-block;
+      font-family: 'JetBrains Mono', 'Menlo', monospace;
+      font-size: 12px;
+      color: var(--cyan);
+      background: rgba(0, 245, 255, 0.07);
+      padding: 4px 8px;
+      border-radius: 6px;
+      border: 1px solid rgba(0, 245, 255, 0.15);
+    }
+
+    .foot {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 30px 40px 50px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--ink-muted);
+      font-size: 13px;
+    }
+    .foot a { color: var(--ink-dim); text-decoration: none; }
+    .foot a:hover { color: var(--cyan); }
+
+    .insight {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 40px 80px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+    .insight-art {
+      position: relative;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 30px 70px -20px rgba(0, 123, 255, 0.5);
+      border: 1px solid rgba(0, 196, 255, 0.18);
+    }
+    .insight-art img { display: block; width: 100%; height: auto; }
+    .insight h2 {
+      font-size: 36px;
+      letter-spacing: -0.8px;
+      margin: 0 0 14px;
+      font-weight: 800;
+    }
+    .insight p {
+      color: var(--ink-dim);
+      font-size: 16px;
+      line-height: 1.6;
+      margin: 0 0 14px;
+    }
+
+    .privacy {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 60px 40px 80px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .privacy-head { text-align: center; margin-bottom: 36px; }
+    .privacy-head h2 {
+      font-size: 32px;
+      letter-spacing: -0.6px;
+      margin: 0 0 10px;
+      font-weight: 800;
+    }
+    .privacy-head p {
+      color: var(--ink-dim);
+      max-width: 720px;
+      margin: 0 auto;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+    .privacy-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 36px;
+      align-items: start;
+    }
+    .rights-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 10px;
+    }
+    .rights-list li {
+      padding: 14px 16px;
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      font-size: 14px;
+      line-height: 1.55;
+      color: var(--ink-dim);
+    }
+    .rights-list strong {
+      color: var(--ink);
+      display: block;
+      margin-bottom: 2px;
+      font-size: 14px;
+    }
+    .rights-list .art {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--cyan);
+      margin-left: 8px;
+    }
+    .dsr-form {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 26px;
+      display: grid;
+      gap: 14px;
+    }
+    .dsr-form h3 {
+      margin: 0 0 4px;
+      font-size: 18px;
+      font-weight: 700;
+    }
+    .dsr-form .helper {
+      color: var(--ink-muted);
+      font-size: 12px;
+      line-height: 1.55;
+      margin: 0 0 6px;
+    }
+    .dsr-form label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--ink-dim);
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+    .dsr-form input, .dsr-form select, .dsr-form textarea {
+      width: 100%;
+      box-sizing: border-box;
+      background: rgba(0, 0, 0, 0.25);
+      color: var(--ink);
+      border: 1px solid rgba(0, 196, 255, 0.2);
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 14px;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.15s ease;
+    }
+    .dsr-form input:focus, .dsr-form select:focus, .dsr-form textarea:focus {
+      border-color: var(--cyan);
+    }
+    .dsr-form textarea { resize: vertical; min-height: 110px; }
+    .dsr-consent {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      font-size: 12px;
+      color: var(--ink-muted);
+      line-height: 1.5;
+    }
+    .dsr-consent input { width: auto; margin-top: 2px; flex-shrink: 0; }
+    .dsr-submit {
+      background: linear-gradient(135deg, var(--cyan), var(--blue));
+      color: #021024;
+      border: none;
+      padding: 12px 18px;
+      border-radius: 10px;
+      font-weight: 800;
+      cursor: pointer;
+      font-size: 14px;
+      letter-spacing: 0.3px;
+    }
+    .dsr-submit:disabled { opacity: 0.6; cursor: wait; }
+    .dsr-result {
+      padding: 14px 16px;
+      border-radius: 10px;
+      font-size: 13px;
+      line-height: 1.55;
+      display: none;
+    }
+    .dsr-result.ok { display: block; background: rgba(0, 245, 255, 0.08); border: 1px solid rgba(0, 245, 255, 0.35); color: var(--ink); }
+    .dsr-result.err { display: block; background: rgba(255, 80, 80, 0.1); border: 1px solid rgba(255, 80, 80, 0.35); color: #ffd0d0; }
+    .dsr-result code {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--cyan);
+    }
+
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; padding: 30px 24px 50px; gap: 36px; }
+      h1 { font-size: 40px; }
+      .nav { padding: 18px 24px; }
+      .nav-links a:not(.nav-cta) { display: none; }
+      .stats { grid-template-columns: repeat(2, 1fr); padding: 0 24px 40px; }
+      .console { padding: 20px 24px 50px; }
+      .console-grid { grid-template-columns: 1fr; }
+      .console-rail { grid-template-columns: repeat(2, minmax(0, 1fr)); border-right: 0; border-bottom: 1px solid rgba(0, 196, 255, 0.12); }
+      .metric-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .workflow-grid { grid-template-columns: 1fr; }
+      .primary-panel { grid-row: auto; }
+      .features { padding: 20px 24px 60px; }
+      .feature-grid { grid-template-columns: 1fr; }
+      .insight { grid-template-columns: 1fr; padding: 0 24px 50px; gap: 30px; }
+      .privacy { padding: 40px 24px 60px; }
+      .privacy-grid { grid-template-columns: 1fr; gap: 24px; }
+      .foot { flex-direction: column; gap: 10px; padding: 24px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <a href="/"><img src="/logo-light.svg" alt="Meta Omni Channel Ad" class="nav-logo" /></a>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#console">Console</a>
+      <a href="#insight">Insights</a>
+      <a href="/help">Help</a>
+      <a href="/login">Sign in</a>
+      <a class="nav-cta" href="/login?mode=signup">Get Started</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-copy">
+      <span class="eyebrow">CROSS-CHANNEL CONVERSION OPTIMIZATION</span>
+      <h1>Launch <span class="grad">omnichannel</span> Meta campaigns from one engine.</h1>
+      <p class="lede">
+        Create CCCO ad sets with omnichannel promoted objects, generate creative variants with deep-link routing,
+        get rule-based optimization guidance, and sync live insights from one production-shaped FastAPI platform.
+      </p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="/login?mode=signup">Get Started</a>
+        <a class="btn btn-ghost" href="/login">Sign in</a>
+      </div>
+    </div>
+    <div class="hero-art">
+      <img src="/logo-light.svg" alt="Meta Omni Channel Ad mark" />
+    </div>
+  </section>
+
+  <section class="stats">
+    <div class="stat">
+      <div class="stat-num">150</div>
+      <div class="stat-label">Starting credits per session</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">2</div>
+      <div class="stat-label">Subscription tiers (Pro / Enterprise)</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">30d</div>
+      <div class="stat-label">Insights sync window</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">v0.1</div>
+      <div class="stat-label">Engine version</div>
+    </div>
+  </section>
+
+  <section class="console" id="console">
+    <div class="console-head">
+      <span class="eyebrow">PRODUCT CONSOLE</span>
+      <h2>One operating view for the full campaign flow.</h2>
+      <p>Use this as the grading walkthrough: auth, campaign build, optimizer, creative, analytics, migration, and privacy are all represented in the backend and surfaced here as the product control room.</p>
+    </div>
+
+    <div class="console-shell" aria-label="Meta Omni Channel Ad product console preview">
+      <div class="console-topbar">
+        <div>
+          <strong>OmniConvert Workspace</strong>
+          <span>Demo session: pro / 150 credits</span>
+        </div>
+        <div class="console-actions">
+          <a href="/login">Sign in</a>
+          <a href="/help">Tutorial</a>
+        </div>
+      </div>
+
+      <div class="console-grid">
+        <aside class="console-rail" aria-label="Workflow stages">
+          <a href="/setup"><span>01</span>Meta setup</a>
+          <a href="/login"><span>02</span>Auth session</a>
+          <a href="#features"><span>03</span>Campaign builder</a>
+          <a href="#optimizer-preview"><span>04</span>Optimizer</a>
+          <a href="#creative-preview"><span>05</span>Creative Studio</a>
+          <a href="#analytics-preview"><span>06</span>Insights</a>
+        </aside>
+
+        <div class="console-main">
+          <div class="metric-strip">
+            <div>
+              <span>Total campaigns</span>
+              <strong>3</strong>
+            </div>
+            <div>
+              <span>Avg CCCO lift</span>
+              <strong>28.4%</strong>
+            </div>
+            <div>
+              <span>30d spend</span>
+              <strong>$15.4k</strong>
+            </div>
+            <div>
+              <span>Credits</span>
+              <strong>150</strong>
+            </div>
+          </div>
+
+          <div class="workflow-grid">
+            <article class="workflow-panel primary-panel">
+              <div class="panel-kicker">Campaign Builder</div>
+              <h3>Spring Promo - CCCO</h3>
+              <div class="field-grid">
+                <label>Event<input value="PURCHASE" readonly /></label>
+                <label>Budget<input value="$50.00 / day" readonly /></label>
+                <label>Pixel<input value="456" readonly /></label>
+                <label>Application<input value="123" readonly /></label>
+              </div>
+              <div class="channel-map">
+                <span>Web URL</span>
+                <strong>https://example.com/products</strong>
+                <span>App deep link</span>
+                <strong>myapp://products</strong>
+              </div>
+            </article>
+
+            <article class="workflow-panel" id="optimizer-preview">
+              <div class="panel-kicker">Optimizer</div>
+              <h3>Suggested delivery split</h3>
+              <div class="split-bar" aria-label="65 percent app, 35 percent web">
+                <span class="split-app"></span>
+                <span class="split-web"></span>
+              </div>
+              <div class="split-labels">
+                <span>App 65%</span>
+                <span>Web 35%</span>
+              </div>
+              <p>High-intent purchase event with deep links available. Bid cap suggestion: $60.</p>
+            </article>
+
+            <article class="workflow-panel" id="creative-preview">
+              <div class="panel-kicker">Creative Studio</div>
+              <h3>Omnichannel Default</h3>
+              <pre>{
+  "applink_treatment": "deeplink_with_web_fallback",
+  "expected_ctr_lift": 14.4
+}</pre>
+            </article>
+
+            <article class="workflow-panel" id="analytics-preview">
+              <div class="panel-kicker">Analytics</div>
+              <h3>Channel performance</h3>
+              <div class="mini-chart">
+                <span style="height:52%"></span>
+                <span style="height:74%"></span>
+                <span style="height:46%"></span>
+                <span style="height:88%"></span>
+                <span style="height:63%"></span>
+              </div>
+              <p>Dashboard endpoint returns conversions, spend, CPA, lift, and daily insight rows.</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="features" id="features">
+    <div class="features-head">
+      <h2>Everything to ship CCCO campaigns end-to-end.</h2>
+      <p>From OAuth and campaign creation to AI optimization, creative generation, analytics, and legacy migration.</p>
+    </div>
+    <div class="feature-grid">
+      <div class="card">
+        <div class="card-icon">⚡</div>
+        <h3>CCCO Campaign Creation</h3>
+        <p>Spin up cross-channel ad sets with omnichannel promoted objects, tracking specs, and paused-by-default safety.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🤖</div>
+        <h3>AI Optimizer</h3>
+        <p>Cross-channel budget splits, predicted CPA, bid caps, and deep-link routing rules — heuristics or LLM-backed.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🎨</div>
+        <h3>Creative Studio</h3>
+        <p>Meta-ready creative variants with omnichannel link specs, deep-link treatments, and Advantage+ catalog.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📊</div>
+        <h3>Live Insights Sync</h3>
+        <p>Thirty days of ad-set insights pulled from Meta, normalised per channel, with daily roll-ups for CCCO lift.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔄</div>
+        <h3>Migration Tools</h3>
+        <p>Scan web-only or app-only legacy campaigns and produce ready-for-inputs CCCO migration plans.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">💳</div>
+        <h3>Subscription & Credits</h3>
+        <p>Pro and Enterprise tiers via Stripe with hybrid credit metering for AI, creative, and live-sync operations.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔐</div>
+        <h3>Meta Business Login</h3>
+        <p>OAuth flow with long-lived tokens, encrypted-at-rest session storage, and ad-account switching.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📁</div>
+        <h3>Campaign Templates</h3>
+        <p>Save successful CCCO configurations and duplicate them with new names and budgets in one step.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🏠</div>
+        <h3>Dashboard Summary</h3>
+        <p>Home-screen overview: active campaigns, 30-day spend, average CCCO lift, migration candidates.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📈</div>
+        <h3>Proof Report: Claude vs. Rule Engine</h3>
+        <p><code>POST /optimize/backtest</code> splits your own ad-set history into a holdout window and scores both optimizers' predicted CPA and app-share against what actually happened. MAE, RMSE, and per-adset wins per optimizer — a harness for <em>testing whether</em> the AI optimizer beats the baseline on your account, with an honest note when no Anthropic key is configured.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🛡️</div>
+        <h3>Tenant-Safe by Construction</h3>
+        <p>Every read and write is scoped by <code>(session_id, ad_account_id)</code> through <code>require_adset_owner</code>. Campaign listing, dashboard, ingest, sync, and the backtest cannot leak across accounts. The <code>test_tenant_safety</code> suite proves it.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="insight" id="insight">
+    <div class="insight-art">
+      <img src="/illustration-analyst.svg" alt="Elegant businesswoman in a tailored office suit reading a dynamic growth graph" />
+    </div>
+    <div>
+      <span class="eyebrow">REAL CREATORS, REAL INSIGHTS</span>
+      <h2>Pull the signal that matters out of every campaign.</h2>
+      <p>
+        Whether you run a sponsored creator partnership or a full omnichannel funnel,
+        the engine ingests live Meta insights, normalizes them per channel, and surfaces
+        the deltas your team actually acts on — CCCO lift, channel mix, predicted CPA, and
+        the next budget move.
+      </p>
+      <p>
+        Built for influencer-led brands, performance teams, and agencies that need decisions
+        in minutes, not slides next week.
+      </p>
+      <div class="cta-row" style="margin-top:8px;">
+        <a class="btn btn-primary" href="#features">Explore capabilities</a>
+        <a class="btn btn-ghost" href="#privacy">Privacy & Data Rights</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="privacy" id="privacy">
+    <div class="privacy-head">
+      <span class="eyebrow">GDPR · DATA SUBJECT RIGHTS</span>
+      <h2>Your data, your rights — exercise them in one form.</h2>
+      <p>
+        Under the EU General Data Protection Regulation (GDPR) and equivalent UK GDPR provisions,
+        you have specific rights over the personal data we process about you. We respond to every
+        verified request within <strong>one calendar month</strong>, free of charge, in line with
+        Article&nbsp;12(3). Complex requests may be extended by up to two further months, with notice.
+      </p>
+    </div>
+
+    <div class="privacy-grid">
+      <ul class="rights-list" aria-label="GDPR data subject rights">
+        <li><strong>Right of access <span class="art">Art. 15</span></strong>Receive a copy of the personal data we hold about you and the purposes for which it is processed.</li>
+        <li><strong>Right to rectification <span class="art">Art. 16</span></strong>Have inaccurate or incomplete personal data corrected without undue delay.</li>
+        <li><strong>Right to erasure <span class="art">Art. 17</span></strong>Request deletion of your personal data where one of the lawful grounds applies (often called "right to be forgotten").</li>
+        <li><strong>Right to restrict processing <span class="art">Art. 18</span></strong>Limit how we use your data while accuracy is contested or a legal claim is pending.</li>
+        <li><strong>Right to data portability <span class="art">Art. 20</span></strong>Receive your data in a structured, commonly-used, machine-readable format (JSON export).</li>
+        <li><strong>Right to object <span class="art">Art. 21</span></strong>Object to processing based on legitimate interests or for direct marketing at any time.</li>
+        <li><strong>Right to withdraw consent <span class="art">Art. 7(3)</span></strong>Where processing relies on consent (e.g. Meta OAuth scopes), withdraw it without affecting prior processing.</li>
+        <li><strong>Right to lodge a complaint <span class="art">Art. 77</span></strong>Contact your national Data Protection Authority if you believe your rights have been violated.</li>
+      </ul>
+
+      <form class="dsr-form" id="dsr-form" novalidate>
+        <h3>Submit a Data Subject Request</h3>
+        <p class="helper">
+          Identity verification is required to prevent unauthorised disclosure (Art.&nbsp;12(6)).
+          We will contact you at the email below to confirm your identity before fulfilling the request.
+        </p>
+
+        <div>
+          <label for="dsr-type">Request type</label>
+          <select id="dsr-type" name="request_type" required>
+            <option value="access">Access (Art. 15)</option>
+            <option value="rectification">Rectification (Art. 16)</option>
+            <option value="erasure">Erasure (Art. 17)</option>
+            <option value="restriction">Restriction (Art. 18)</option>
+            <option value="portability">Portability (Art. 20)</option>
+            <option value="objection">Objection (Art. 21)</option>
+            <option value="withdraw_consent">Withdraw consent (Art. 7(3))</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="dsr-name">Full name</label>
+          <input id="dsr-name" name="full_name" type="text" required maxlength="200" autocomplete="name" />
+        </div>
+
+        <div>
+          <label for="dsr-email">Verifiable email address</label>
+          <input id="dsr-email" name="email" type="email" required maxlength="320" autocomplete="email" />
+        </div>
+
+        <div>
+          <label for="dsr-session">Session ID (optional)</label>
+          <input id="dsr-session" name="related_session_id" type="text" placeholder="If you have an active session, paste it here" />
+        </div>
+
+        <div>
+          <label for="dsr-desc">Describe your request</label>
+          <textarea id="dsr-desc" name="description" required minlength="10" maxlength="4000"
+            placeholder="Please describe what data or action this request concerns. Be as specific as possible to help us respond accurately."></textarea>
+        </div>
+
+        <label class="dsr-consent">
+          <input type="checkbox" id="dsr-consent" name="identity_verification_consent" required />
+          <span>
+            I confirm I am the data subject (or an authorised representative) and consent to identity verification
+            at the email provided. I understand a response will be issued within one calendar month, subject to
+            Art.&nbsp;12 extensions.
+          </span>
+        </label>
+
+        <button type="submit" class="dsr-submit" id="dsr-submit">Submit DSR Request</button>
+        <div class="dsr-result" id="dsr-result" role="status" aria-live="polite"></div>
+
+        <p class="helper" style="margin-top: 6px;">
+          Prefer email? Send the same information to <strong>privacy@your-domain.example</strong>.
+          You may also lodge a complaint with your local Data Protection Authority at any time.
+        </p>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer is injected globally by /site.js -->
+  <script src="/site.js" defer></script>
+
+  <script>
+    (function () {
+      const form = document.getElementById('dsr-form');
+      const result = document.getElementById('dsr-result');
+      const submit = document.getElementById('dsr-submit');
+      if (!form) return;
+
+      form.addEventListener('submit', async function (event) {
+        event.preventDefault();
+        result.className = 'dsr-result';
+        result.textContent = '';
+
+        const payload = {
+          request_type: form.request_type.value,
+          full_name: form.full_name.value.trim(),
+          email: form.email.value.trim(),
+          description: form.description.value.trim(),
+          identity_verification_consent: form.identity_verification_consent.checked,
+          related_session_id: form.related_session_id.value.trim() || null,
+        };
+
+        if (!payload.identity_verification_consent) {
+          result.className = 'dsr-result err';
+          result.textContent = 'You must confirm identity verification consent to submit a request.';
+          return;
+        }
+
+        submit.disabled = true;
+        submit.textContent = 'Submitting…';
+
+        try {
+          const res = await fetch('/privacy/dsr', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          });
+          const data = await res.json();
+
+          if (!res.ok) {
+            const detail = Array.isArray(data.detail)
+              ? data.detail.map(d => d.msg || JSON.stringify(d)).join('; ')
+              : (data.detail || 'Request failed');
+            throw new Error(detail);
+          }
+
+          result.className = 'dsr-result ok';
+          result.innerHTML =
+            'Request received. Ticket: <code>' + data.ticket_id + '</code><br>' +
+            'Statutory response deadline: <code>' + new Date(data.statutory_deadline).toUTCString() + '</code><br>' +
+            data.next_steps;
+          form.reset();
+        } catch (err) {
+          result.className = 'dsr-result err';
+          result.textContent = 'Could not submit request: ' + err.message;
+        } finally {
+          submit.disabled = false;
+          submit.textContent = 'Submit DSR Request';
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

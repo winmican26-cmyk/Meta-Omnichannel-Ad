@@ -1,0 +1,168 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 520" role="img" aria-label="Elegant businesswoman in a tailored office suit reading a dynamic performance graph">
+  <defs>
+    <linearGradient id="bgPanel" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#07172a"/>
+      <stop offset="54%" stop-color="#0b2138"/>
+      <stop offset="100%" stop-color="#102d48"/>
+    </linearGradient>
+    <linearGradient id="panelGlass" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#14365a" stop-opacity="0.86"/>
+      <stop offset="100%" stop-color="#071c31" stop-opacity="0.92"/>
+    </linearGradient>
+    <linearGradient id="bar" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="#007bff"/>
+      <stop offset="55%" stop-color="#11b8ff"/>
+      <stop offset="100%" stop-color="#22f3ff"/>
+    </linearGradient>
+    <linearGradient id="line" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#5cffb0"/>
+      <stop offset="48%" stop-color="#00f5ff"/>
+      <stop offset="100%" stop-color="#2d7dff"/>
+    </linearGradient>
+    <linearGradient id="hair" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#241103"/>
+      <stop offset="48%" stop-color="#563013"/>
+      <stop offset="100%" stop-color="#8b5a2b"/>
+    </linearGradient>
+    <linearGradient id="skin" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffd8bd"/>
+      <stop offset="100%" stop-color="#d8926f"/>
+    </linearGradient>
+    <linearGradient id="suit" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f7fbff"/>
+      <stop offset="100%" stop-color="#c9d7e7"/>
+    </linearGradient>
+    <linearGradient id="lapel" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#9db4cc"/>
+    </linearGradient>
+    <linearGradient id="blouse" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#00d4ff"/>
+      <stop offset="100%" stop-color="#0a7dff"/>
+    </linearGradient>
+    <filter id="softGlow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="7" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#000814" flood-opacity="0.38"/>
+    </filter>
+  </defs>
+
+  <rect width="760" height="520" rx="24" fill="url(#bgPanel)"/>
+  <rect x="1" y="1" width="758" height="518" rx="23" fill="none" stroke="#0fdcff" stroke-opacity="0.18"/>
+
+  <g opacity="0.18" stroke="#00d4ff" stroke-width="1">
+    <line x1="56" y1="112" x2="704" y2="112"/>
+    <line x1="56" y1="182" x2="704" y2="182"/>
+    <line x1="56" y1="252" x2="704" y2="252"/>
+    <line x1="56" y1="322" x2="704" y2="322"/>
+    <line x1="56" y1="392" x2="704" y2="392"/>
+  </g>
+
+  <g transform="translate(354 70)" filter="url(#shadow)">
+    <rect width="344" height="354" rx="20" fill="url(#panelGlass)" stroke="#00d4ff" stroke-opacity="0.28"/>
+    <path d="M24 56H320" stroke="#9defff" stroke-opacity="0.16"/>
+    <text x="24" y="34" font-family="'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="800" letter-spacing="2.5" fill="#aeeeff">DYNAMIC GROWTH</text>
+    <text x="24" y="70" font-family="'Helvetica Neue', Arial, sans-serif" font-size="38" font-weight="900" fill="#f7fbff">+42.8%</text>
+
+    <g transform="translate(24 100)">
+      <rect x="0" y="150" width="34" height="92" rx="7" fill="url(#bar)"/>
+      <rect x="45" y="116" width="34" height="126" rx="7" fill="url(#bar)"/>
+      <rect x="90" y="136" width="34" height="106" rx="7" fill="url(#bar)"/>
+      <rect x="135" y="76" width="34" height="166" rx="7" fill="url(#bar)"/>
+      <rect x="180" y="94" width="34" height="148" rx="7" fill="url(#bar)"/>
+      <rect x="225" y="46" width="34" height="196" rx="7" fill="url(#bar)"/>
+      <rect x="270" y="22" width="34" height="220" rx="7" fill="url(#bar)"/>
+
+      <g opacity="0.22" stroke="#d9fbff">
+        <line x1="0" y1="42" x2="304" y2="42"/>
+        <line x1="0" y1="92" x2="304" y2="92"/>
+        <line x1="0" y1="142" x2="304" y2="142"/>
+        <line x1="0" y1="192" x2="304" y2="192"/>
+      </g>
+
+      <polyline points="17,178 62,132 107,153 152,88 197,108 242,58 287,34" fill="none" stroke="url(#line)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" filter="url(#softGlow)"/>
+      <g fill="#eaffff" stroke="#00f5ff" stroke-width="3">
+        <circle cx="17" cy="178" r="5"/>
+        <circle cx="62" cy="132" r="5"/>
+        <circle cx="107" cy="153" r="5"/>
+        <circle cx="152" cy="88" r="5"/>
+        <circle cx="197" cy="108" r="5"/>
+        <circle cx="242" cy="58" r="5"/>
+        <circle cx="287" cy="34" r="6"/>
+      </g>
+
+      <g font-family="'Helvetica Neue', Arial, sans-serif" font-size="10" fill="#8fafc9">
+        <text x="0" y="265">W1</text>
+        <text x="45" y="265">W2</text>
+        <text x="90" y="265">W3</text>
+        <text x="135" y="265">W4</text>
+        <text x="180" y="265">W5</text>
+        <text x="225" y="265">W6</text>
+        <text x="270" y="265">W7</text>
+      </g>
+    </g>
+  </g>
+
+  <g transform="translate(508 128)">
+    <rect width="130" height="48" rx="12" fill="#06395a" stroke="#00f5ff" stroke-opacity="0.52"/>
+    <circle cx="20" cy="24" r="6" fill="#5cffb0"/>
+    <text x="36" y="21" font-family="'Helvetica Neue', Arial, sans-serif" font-size="11" font-weight="800" letter-spacing="1.6" fill="#9defff">ROAS</text>
+    <text x="36" y="38" font-family="'Helvetica Neue', Arial, sans-serif" font-size="15" font-weight="900" fill="#ffffff">6.4x</text>
+  </g>
+
+  <g transform="translate(92 80)" filter="url(#shadow)">
+    <ellipse cx="142" cy="408" rx="112" ry="13" fill="#000814" opacity="0.45"/>
+
+    <path d="M82 108C79 54 119 22 173 28C226 34 254 77 248 130C242 186 225 225 198 247H104C78 221 62 168 82 108Z" fill="url(#hair)"/>
+    <path d="M95 113C98 65 131 43 173 48C212 53 233 83 230 126C226 168 207 197 174 204C134 212 98 174 95 113Z" fill="#2a1406" opacity="0.38"/>
+
+    <ellipse cx="168" cy="132" rx="48" ry="58" fill="url(#skin)"/>
+    <path d="M124 121C130 74 160 63 190 70C214 75 227 100 224 130C206 117 186 116 167 124C150 132 137 132 124 121Z" fill="url(#hair)"/>
+    <path d="M142 105C154 94 181 92 207 104C205 78 180 57 146 69C128 76 119 94 124 121C130 115 136 111 142 105Z" fill="#351704"/>
+
+    <g fill="#261106">
+      <ellipse cx="153" cy="134" rx="3" ry="4"/>
+      <ellipse cx="187" cy="134" rx="3" ry="4"/>
+    </g>
+    <path d="M155 154Q169 164 188 154" stroke="#a54055" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <path d="M168 141L163 150H174Z" fill="#c68063" opacity="0.65"/>
+
+    <path d="M102 204C124 188 150 184 170 188C196 184 229 190 252 210L270 348C272 368 256 382 234 382H86C65 382 50 367 55 347L72 224C76 216 86 209 102 204Z" fill="url(#suit)"/>
+    <path d="M125 197L166 293L205 197C191 188 146 186 125 197Z" fill="#ffffff"/>
+    <path d="M154 204L180 204L191 318H141Z" fill="url(#blouse)"/>
+    <path d="M102 204L139 314L166 188C142 187 119 192 102 204Z" fill="url(#lapel)"/>
+    <path d="M230 202L193 314L170 188C193 187 215 192 230 202Z" fill="url(#lapel)"/>
+    <path d="M102 204L72 224L42 306L64 330L101 272Z" fill="url(#suit)"/>
+    <path d="M246 210L288 260L332 292L318 315L268 292L236 246Z" fill="url(#suit)"/>
+    <path d="M64 330C74 338 80 354 75 367C69 383 49 383 40 371C31 359 42 338 64 330Z" fill="url(#skin)"/>
+    <path d="M318 315C332 322 339 337 333 350C326 365 305 361 300 347C296 335 303 322 318 315Z" fill="url(#skin)"/>
+
+    <g filter="url(#softGlow)">
+      <path d="M318 315C338 293 358 277 382 261" stroke="#00f5ff" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="384" cy="260" r="6" fill="#5cffb0"/>
+    </g>
+
+    <path d="M96 235C117 252 139 260 165 260C191 260 215 251 239 234" stroke="#9db4cc" stroke-opacity="0.25" stroke-width="2" fill="none"/>
+    <circle cx="166" cy="343" r="5" fill="#8ea2ba"/>
+    <circle cx="166" cy="367" r="5" fill="#8ea2ba"/>
+  </g>
+
+  <g transform="translate(112 52)">
+    <rect width="162" height="44" rx="12" fill="#062744" stroke="#007bff" stroke-opacity="0.5"/>
+    <circle cx="22" cy="22" r="6" fill="#007bff"/>
+    <text x="40" y="19" font-family="'Helvetica Neue', Arial, sans-serif" font-size="10" font-weight="800" letter-spacing="1.5" fill="#aeeeff">CHANNEL MIX</text>
+    <text x="40" y="36" font-family="'Helvetica Neue', Arial, sans-serif" font-size="14" font-weight="900" fill="#ffffff">App 64 / Web 36</text>
+  </g>
+
+  <g opacity="0.9" filter="url(#softGlow)">
+    <circle cx="324" cy="226" r="3" fill="#00f5ff"/>
+    <circle cx="347" cy="205" r="2.5" fill="#5cffb0"/>
+    <circle cx="368" cy="234" r="2.5" fill="#007bff"/>
+    <circle cx="391" cy="210" r="3" fill="#00f5ff"/>
+  </g>
+</svg>

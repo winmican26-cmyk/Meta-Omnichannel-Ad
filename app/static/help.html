@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Help & Tutorial — Meta Omni Channel Ad</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="stylesheet" href="/legal.css" />
+  <link rel="stylesheet" href="/site.css" />
+  <style>
+    .help-toc {
+      position: sticky;
+      top: 22px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(0, 196, 255, 0.18);
+      border-radius: 14px;
+      padding: 18px 20px;
+      max-height: calc(100vh - 60px);
+      overflow-y: auto;
+    }
+    .help-toc h4 {
+      margin: 0 0 10px;
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--ink-dim, #a8c0d8);
+      font-weight: 800;
+    }
+    .help-toc ol { margin: 0; padding: 0 0 0 18px; counter-reset: tut; }
+    .help-toc li { list-style: none; counter-increment: tut; margin: 6px 0; font-size: 13px; line-height: 1.45; }
+    .help-toc li::before {
+      content: counter(tut) ".";
+      color: var(--cyan);
+      font-weight: 700;
+      margin-right: 6px;
+    }
+    .help-toc a { color: var(--ink-dim); text-decoration: none; }
+    .help-toc a:hover { color: var(--cyan); }
+    .help-layout {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 36px;
+      margin-top: 30px;
+    }
+    .help-step {
+      margin-bottom: 32px;
+      padding-left: 18px;
+      border-left: 2px solid rgba(0, 196, 255, 0.25);
+    }
+    .help-step h2 {
+      margin: 0 0 10px;
+      font-size: 22px;
+      letter-spacing: -0.3px;
+    }
+    .help-step .step-num {
+      color: var(--cyan);
+      font-weight: 800;
+      margin-right: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      letter-spacing: 1px;
+    }
+    .help-tip {
+      margin: 12px 0;
+      padding: 12px 16px;
+      background: rgba(0, 245, 255, 0.06);
+      border: 1px solid rgba(0, 245, 255, 0.2);
+      border-radius: 10px;
+      color: var(--ink-dim);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+    .help-tip strong { color: var(--cyan); }
+    .help-warn {
+      margin: 12px 0;
+      padding: 12px 16px;
+      background: rgba(255, 200, 80, 0.06);
+      border: 1px solid rgba(255, 200, 80, 0.25);
+      border-radius: 10px;
+      color: #ffe5a8;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+    .help-faq summary {
+      cursor: pointer;
+      padding: 10px 14px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(0, 196, 255, 0.18);
+      border-radius: 10px;
+      font-weight: 700;
+      color: var(--ink);
+      list-style: none;
+      font-size: 14px;
+    }
+    .help-faq summary::-webkit-details-marker { display: none; }
+    .help-faq summary::after {
+      content: '+';
+      float: right;
+      color: var(--cyan);
+      font-weight: 900;
+    }
+    .help-faq[open] summary::after { content: '−'; }
+    .help-faq[open] summary { border-radius: 10px 10px 0 0; border-bottom: none; }
+    .help-faq .faq-body {
+      padding: 14px 16px;
+      border: 1px solid rgba(0, 196, 255, 0.18);
+      border-top: none;
+      border-radius: 0 0 10px 10px;
+      color: var(--ink-dim);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+    .help-faq { margin: 10px 0; }
+    @media (max-width: 800px) {
+      .help-layout { grid-template-columns: 1fr; }
+      .help-toc { position: static; max-height: none; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <a href="/"><img src="/logo-light.svg" alt="Meta Omni Channel Ad" class="nav-logo" /></a>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/about">About</a>
+      <a href="/privacy-policy">Privacy</a>
+      <a href="/terms">Terms</a>
+      <a href="/login">Sign in</a>
+    </div>
+  </nav>
+
+  <main class="legal" style="max-width: 1200px;">
+    <header class="legal-head">
+      <span class="eyebrow">HELP · QUICK START</span>
+      <h1>Get from zero to your first CCCO campaign in 10 minutes.</h1>
+      <p class="meta">A short tour of how the engine works, what each section does, and how to recover if something goes sideways.</p>
+    </header>
+
+    <div class="help-layout">
+      <aside>
+        <nav class="help-toc">
+          <h4>Tutorial</h4>
+          <ol>
+            <li><a href="#connect">Connect Meta</a></li>
+            <li><a href="#campaign">Create a campaign</a></li>
+            <li><a href="#optimize">Use the AI Optimizer</a></li>
+            <li><a href="#creative">Generate creatives</a></li>
+            <li><a href="#insights">Sync live insights</a></li>
+            <li><a href="#migration">Migrate legacy campaigns</a></li>
+            <li><a href="#templates">Save and duplicate</a></li>
+            <li><a href="#billing">Credits & billing</a></li>
+            <li><a href="#privacy-help">Privacy & data rights</a></li>
+            <li><a href="#faq">FAQ</a></li>
+            <li><a href="#support">Get support</a></li>
+          </ol>
+        </nav>
+      </aside>
+
+      <div>
+
+        <section class="help-step" id="connect">
+          <h2><span class="step-num">01</span>Connect your Meta Business account</h2>
+          <p>Click <strong>Get Started</strong> from the home page or the top nav. You'll be sent to Meta's standard Business Login screen where you choose which ad accounts and pages this engine can manage on your behalf.</p>
+          <div class="help-tip"><strong>What you'll be asked to approve:</strong> the ability to create and manage ad sets and ads, read insights for those campaigns, and switch between the ad accounts you authorise. Meta shows you each one before you accept.</div>
+          <p>Once connected, you'll land on the dashboard with your default ad account selected. To switch between accounts at any time, use the account picker in the top right.</p>
+          <div class="help-warn"><strong>Don't see your account?</strong> Make sure you're an admin or finance editor on the Business that owns the ad account in Meta Business Settings, then disconnect and reconnect.</div>
+        </section>
+
+        <section class="help-step" id="campaign">
+          <h2><span class="step-num">02</span>Create your first CCCO campaign</h2>
+          <p>Open <strong>Campaigns → New CCCO Campaign</strong>. Fill in the essentials:</p>
+          <ul>
+            <li><strong>Name</strong> — internal label; can be edited later.</li>
+            <li><strong>Daily budget</strong> — in minor units (cents). Meta enforces a minimum per currency.</li>
+            <li><strong>Target event</strong> — the conversion event Meta optimises toward (e.g. PURCHASE, LEAD, COMPLETE_REGISTRATION).</li>
+            <li><strong>Pixel ID</strong> — your Meta web pixel, owned by or shared with this ad account.</li>
+            <li><strong>App ID</strong> — your Meta app, with App Events SDK or CAPI configured for the same event.</li>
+            <li><strong>Web URL</strong> and optional <strong>iOS / Android deep links</strong>.</li>
+          </ul>
+          <div class="help-tip"><strong>Safety net:</strong> every new ad set and ad is created as <em>PAUSED</em>. Nothing spends until you flip it to ACTIVE.</div>
+        </section>
+
+        <section class="help-step" id="optimize">
+          <h2><span class="step-num">03</span>Use the AI Optimizer</h2>
+          <p>From any draft campaign, click <strong>Optimize</strong>. The engine returns:</p>
+          <ul>
+            <li>A recommended <strong>web vs app budget split</strong>, with a reason for each weight.</li>
+            <li><strong>Predicted CPA</strong> based on historical patterns.</li>
+            <li>A suggested <strong>bid cap</strong> and a <strong>deep-link routing rule</strong>.</li>
+            <li>A <strong>creative tip</strong> tailored to your event type.</li>
+          </ul>
+          <p>Review the suggestion and apply with one click. The cost is 15 credits per call.</p>
+          <p>The optimizer is Claude-backed when <code>ANTHROPIC_API_KEY</code> is configured and falls back to the rule engine otherwise. Every call is logged for the Proof Report below.</p>
+        </section>
+
+        <section class="help-step" id="proof-report">
+          <h2><span class="step-num">03b</span>Run the Proof Report (Claude vs. Rule Engine)</h2>
+          <p>Once you have at least seven days of synced insights on a CCCO ad set, hit <code>POST /optimize/backtest</code>. The engine splits each owned ad set's history into a leak-free history window and a holdout window, then scores both optimizers' predictions against what actually happened. This <em>tests whether</em> Claude beats the baseline on your account — it does not assume the answer.</p>
+          <ul>
+            <li><strong>MAE and RMSE</strong> on predicted CPA per optimizer.</li>
+            <li><strong>Per-adset wins</strong> on CPA and app-share.</li>
+            <li>An honest <strong>notes</strong> field that calls out rule-vs-rule comparisons when no Claude key is configured.</li>
+          </ul>
+          <p>The backtest is strictly scoped to your <code>(session_id, ad_account_id)</code>; it cannot read other accounts. Cost: 50 credits.</p>
+        </section>
+
+        <section class="help-step" id="creative">
+          <h2><span class="step-num">04</span>Generate Meta-ready creatives</h2>
+          <p>Open the <strong>Creative Studio</strong>, paste your campaign basics, and you'll receive one or more variant specs containing the omnichannel link spec, the right deep-link treatment, and optionally an Advantage+ Catalog template URL spec. Use the JSON directly when you create the ad, or copy values into Ads Manager.</p>
+          <div class="help-tip"><strong>Catalog mode:</strong> set <code>catalog_mode: true</code> with a <code>product_id</code> to get a <code>template_url_spec</code> for Advantage+ Shopping ads.</div>
+        </section>
+
+        <section class="help-step" id="insights">
+          <h2><span class="step-num">05</span>Sync and read live insights</h2>
+          <p>Click <strong>Sync Insights</strong> on any CCCO ad set. The engine pulls the last 30 days from Meta and stores daily rows. The dashboard then shows:</p>
+          <ul>
+            <li>Total conversions and spend, with daily breakdown.</li>
+            <li><strong>Channel split</strong> — web vs app share of conversions.</li>
+            <li><strong>CCCO lift percent</strong> versus a same-event single-channel baseline.</li>
+            <li><strong>Average CPA</strong> trend.</li>
+          </ul>
+          <p>Sync costs 20 credits. You can re-sync as often as you want; rows are idempotent on (ad_set, date).</p>
+        </section>
+
+        <section class="help-step" id="migration">
+          <h2><span class="step-num">06</span>Migrate legacy single-channel campaigns</h2>
+          <p>Click <strong>Scan for Migration</strong>. The engine inspects your active campaigns and flags web-only and app-only candidates that are good CCCO upgrade targets. Each candidate includes the recommended event and an expected CPA lift estimate.</p>
+          <p>Pick a candidate, click <strong>Plan Migration</strong>, and the engine returns a ready-for-inputs CCCO structure — you fill the placeholder app, pixel, store URLs, and deep links, then create the upgraded campaign.</p>
+        </section>
+
+        <section class="help-step" id="templates">
+          <h2><span class="step-num">07</span>Save and duplicate winning configurations</h2>
+          <p>From any successful campaign, click <strong>Save as Template</strong> to capture the full CCCO configuration. Duplicate it later with a new name, new daily budget, and new target audience — useful for rolling out the same play across regions or product lines.</p>
+        </section>
+
+        <section class="help-step" id="billing">
+          <h2><span class="step-num">08</span>Credits and billing</h2>
+          <p>Each session starts with <strong>150 free credits</strong>. Expensive AI / sync operations deduct credits:</p>
+          <ul>
+            <li>Optimizer suggestion — 15 credits</li>
+            <li>Creative generation — 25 credits</li>
+            <li>Live insights sync — 20 credits</li>
+            <li>Migration scan — 30 credits</li>
+          </ul>
+          <p>Subscribe to <strong>Pro</strong> or <strong>Enterprise</strong> via the billing page for unlimited AI / sync operations and unlimited campaigns.</p>
+        </section>
+
+        <section class="help-step" id="privacy-help">
+          <h2><span class="step-num">09</span>Privacy & your data rights</h2>
+          <p>OAuth tokens are encrypted at rest. We do not see or store your Meta password. To exercise your GDPR rights (access, rectification, erasure, portability, restriction, objection, withdrawal of consent), use the <a href="/#privacy">DSR form</a> on the home page or email us at privacy@your-domain.example. We respond within one calendar month.</p>
+          <p>You can also disconnect this engine entirely from <strong>Meta Business Settings → Business Integrations</strong> at any time. Meta will notify us, we'll purge your tokens, and stage your downstream records for deletion.</p>
+        </section>
+
+        <section class="help-step" id="faq">
+          <h2><span class="step-num">10</span>FAQ</h2>
+
+          <details class="help-faq">
+            <summary>Why is my new campaign PAUSED?</summary>
+            <div class="faq-body">Intentional. Every new ad set and ad is created PAUSED so you can review the structure in Ads Manager before any spend. Flip to ACTIVE when you're ready.</div>
+          </details>
+
+          <details class="help-faq">
+            <summary>Why does CCCO require both a pixel and an app ID?</summary>
+            <div class="faq-body">CCCO ads are optimised on a single event that fires across both surfaces. Meta requires you to declare the matching event for both your pixel (web) and your app, so it can attribute conversions back to one optimisation goal. The <code>custom_event_type</code> must match across both entries.</div>
+          </details>
+
+          <details class="help-faq">
+            <summary>My Meta App Secret is showing as empty in the dashboard. Where do I set it?</summary>
+            <div class="faq-body">In your local <code>.env</code> file, set <code>META_APP_SECRET</code> to the value shown at <em>App Settings → Basic → App Secret</em> on the Meta developer dashboard. Restart the server after changing it.</div>
+          </details>
+
+          <details class="help-faq">
+            <summary>Can I use a System User token instead of OAuth?</summary>
+            <div class="faq-body">Yes — agencies and unattended automations can paste a long-lived System User token in the dashboard's "Advanced" tab. The engine will use it in place of the OAuth flow. Standard OAuth is still recommended for first-time setup.</div>
+          </details>
+
+          <details class="help-faq">
+            <summary>What's the difference between "Limited" and "Full" access on the Marketing API?</summary>
+            <div class="faq-body">Limited Access works only on ad accounts where you (the app admin) are an admin — useful for development. Full Access is required to serve other advertisers' accounts via OAuth and requires App Review plus Business Verification. See the App Review roadmap in our developer docs.</div>
+          </details>
+
+          <details class="help-faq">
+            <summary>How do I revoke access?</summary>
+            <div class="faq-body">Go to <em>Meta Business Settings → Business Integrations</em>, find this app, and click "Remove". Meta will send a signed deletion request to us; we will purge your stored tokens and stage your records for deletion. You'll receive a confirmation code you can use to check status.</div>
+          </details>
+
+          <details class="help-faq">
+            <summary>The engine says "No active session" when I try to create a campaign.</summary>
+            <div class="faq-body">Your OAuth session has expired (Meta long-lived tokens last ~60 days). Click Sign in again to refresh. Future versions will refresh proactively before expiry.</div>
+          </details>
+        </section>
+
+        <section class="help-step" id="support">
+          <h2><span class="step-num">11</span>Need a human?</h2>
+          <p>Product or onboarding help: <a href="mailto:support@your-domain.example">support@your-domain.example</a></p>
+          <p>Privacy or data rights: <a href="mailto:privacy@your-domain.example">privacy@your-domain.example</a></p>
+          <p>Security disclosures: <a href="mailto:security@your-domain.example">security@your-domain.example</a></p>
+        </section>
+
+      </div>
+    </div>
+
+    <p class="back-link"><a href="/">← Back to Meta Omni Channel Ad</a></p>
+  </main>
+
+  <script src="/site.js" defer></script>
+</body>
+</html>

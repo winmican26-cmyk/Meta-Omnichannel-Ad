@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Meta Setup - Meta Omni Channel Ad</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="stylesheet" href="/legal.css" />
+  <link rel="stylesheet" href="/site.css" />
+  <style>
+    .setup-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 330px;
+      gap: 28px;
+      align-items: start;
+      margin-top: 28px;
+    }
+    .setup-card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(0, 196, 255, 0.18);
+      border-radius: 14px;
+      padding: 22px;
+    }
+    .setup-summary {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+    .setup-summary div {
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(0, 196, 255, 0.14);
+      border-radius: 10px;
+      padding: 14px;
+    }
+    .setup-summary span {
+      display: block;
+      color: var(--ink-muted, #7a93ac);
+      font-size: 11px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      font-weight: 800;
+    }
+    .setup-summary strong {
+      display: block;
+      color: var(--ink, #e8f4ff);
+      font-size: 20px;
+    }
+    .setup-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 12px;
+    }
+    .setup-item {
+      display: grid;
+      grid-template-columns: 42px 1fr;
+      gap: 12px;
+      padding: 16px;
+      border: 1px solid rgba(0, 196, 255, 0.16);
+      border-radius: 12px;
+      background: rgba(0, 0, 0, 0.18);
+    }
+    .setup-badge {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      color: #021024;
+      background: #ffc857;
+    }
+    .setup-item.ok .setup-badge {
+      background: #6effb8;
+    }
+    .setup-item h2 {
+      margin: 0 0 6px;
+      font-size: 16px;
+      letter-spacing: 0;
+    }
+    .setup-item p {
+      margin: 0 0 10px;
+      color: var(--ink-dim, #a8c0d8);
+      line-height: 1.55;
+      font-size: 13px;
+    }
+    .setup-item a,
+    .setup-actions a {
+      display: inline-flex;
+      color: var(--cyan, #00f5ff);
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 13px;
+    }
+    .setup-actions {
+      display: grid;
+      gap: 12px;
+      margin-top: 16px;
+    }
+    .setup-actions a {
+      justify-content: center;
+      padding: 11px 14px;
+      border-radius: 9px;
+      border: 1px solid rgba(0, 196, 255, 0.28);
+      background: rgba(0, 196, 255, 0.05);
+    }
+    .setup-code {
+      display: block;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      margin: 12px 0 0;
+      padding: 14px;
+      color: #d9f9ff;
+      background: rgba(0, 0, 0, 0.28);
+      border: 1px solid rgba(0, 196, 255, 0.14);
+      border-radius: 10px;
+      font-size: 12px;
+      line-height: 1.55;
+    }
+    .setup-loading {
+      color: var(--ink-dim, #a8c0d8);
+      font-size: 14px;
+    }
+    @media (max-width: 850px) {
+      .setup-grid { grid-template-columns: 1fr; }
+      .setup-summary { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <a href="/"><img src="/logo-light.svg" alt="Meta Omni Channel Ad" class="nav-logo" /></a>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/help">Help</a>
+      <a href="/login">Sign in</a>
+    </div>
+  </nav>
+
+  <main class="legal" style="max-width: 1180px;">
+    <header class="legal-head">
+      <span class="eyebrow">META SETUP</span>
+      <h1>Connect the Meta developer settings before OAuth.</h1>
+      <p class="meta">This page turns the raw setup API into a readable checklist. The JSON endpoint still exists at <code>/auth/setup-status</code> for backend verification.</p>
+    </header>
+
+    <div class="setup-grid">
+      <section class="setup-card">
+        <div class="setup-summary" id="setup-summary">
+          <div>
+            <span>OAuth ready</span>
+            <strong>Checking...</strong>
+          </div>
+          <div>
+            <span>Login mode</span>
+            <strong>Checking...</strong>
+          </div>
+        </div>
+        <div id="setup-list" class="setup-loading">Loading setup status...</div>
+      </section>
+
+      <aside class="setup-card">
+        <h2 style="margin-top:0;">What to add in .env</h2>
+        <p class="meta">Create a Meta app, add Marketing API, then paste these values into your local `.env` file and restart the server.</p>
+        <code class="setup-code">META_APP_ID=your_meta_app_id
+META_APP_SECRET=your_meta_app_secret
+META_REDIRECT_URI=http://localhost:8765/auth/callback
+META_LOGIN_CONFIG_ID=optional_login_for_business_config_id</code>
+        <div class="setup-actions">
+          <a href="https://developers.facebook.com/apps/" target="_blank" rel="noopener">Open Meta App Dashboard</a>
+          <a href="/auth/setup-status">View raw setup JSON</a>
+          <a href="/help#connect">Read setup tutorial</a>
+        </div>
+      </aside>
+    </div>
+
+    <p class="back-link"><a href="/">Back to product console</a></p>
+  </main>
+
+  <script src="/site.js" defer></script>
+  <script>
+    (function () {
+      const summary = document.getElementById('setup-summary');
+      const list = document.getElementById('setup-list');
+
+      function statusText(value) {
+        return value ? 'Ready' : 'Needs setup';
+      }
+
+      fetch('/auth/setup-status')
+        .then((res) => res.json())
+        .then((data) => {
+          summary.innerHTML = [
+            '<div><span>OAuth ready</span><strong>' + statusText(data.ready_for_oauth) + '</strong></div>',
+            '<div><span>Login mode</span><strong>' + (data.using_login_for_business ? 'Business Login' : 'Scope fallback') + '</strong></div>',
+          ].join('');
+
+          list.className = '';
+          list.innerHTML = '<ul class="setup-list">' + data.items.map((item) => {
+            const status = item.ok ? 'ok' : 'todo';
+            const badge = item.ok ? 'OK' : '!';
+            return [
+              '<li class="setup-item ' + status + '">',
+              '  <span class="setup-badge">' + badge + '</span>',
+              '  <div>',
+              '    <h2>Step ' + item.step + ': ' + item.name + '</h2>',
+              '    <p>' + item.hint + '</p>',
+              '    <a href="' + item.dashboard_url + '" target="_blank" rel="noopener">Open dashboard area</a>',
+              '  </div>',
+              '</li>',
+            ].join('');
+          }).join('') + '</ul>';
+        })
+        .catch(() => {
+          list.className = 'setup-loading';
+          list.textContent = 'Could not load setup status. Make sure the FastAPI server is running.';
+        });
+    })();
+  </script>
+</body>
+</html>
